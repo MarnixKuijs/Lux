@@ -1,0 +1,12 @@
+[submodule "Glm"]
+	path = External/Glm
+	url = https://github.com/g-truc/glm.git
+[submodule "TinyGltf"]
+	path = External/TinyGltf
+	url = https://github.com/syoyo/tinygltf.git
+[submodule "Glfw"]
+	path = External/Glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "Sdl"]
+	path = External/Sdl
+	url = https://github.com/SDL-mirror/SDL.git
