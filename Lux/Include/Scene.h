@@ -1,7 +1,12 @@
 #pragma once
+#include "Mesh.h"
+#include "Material.h"
+#include "Light.h"
+
 #include <glm/vec3.hpp>
 
 #include <vector>
+
 
 //Temp
 struct Sphere
@@ -13,9 +18,12 @@ struct Sphere
 struct Object
 {
 	Sphere geometry;
+	Material* material;
 };
 
 struct Scene
 {
+	Scene();
+	std::vector<PointLight> lights;
 	std::vector<Object> objects;
 };

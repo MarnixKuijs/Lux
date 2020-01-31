@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_subdirectory(External/Glm)
+add_subdirectory(External/Gsl)
 
 add_subdirectory(External/Glfw)
 set_target_properties(glfw
@@ -16,9 +17,12 @@ set_target_properties(glfw
 )
 
 set(SRC_FILES
+	./Lux/Source/glad.c
 	./Lux/Source/Main.cpp
 	./Lux/Source/Ray.cpp
-	./Lux/Source/glad.c
+	./Lux/Source/Camera.cpp
+	./Lux/Source/Scene.cpp
+	./Lux/Source/Mesh.cpp
 )
 
 add_executable(Lux ${SRC_FILES})
@@ -28,6 +32,7 @@ add_dependencies(Lux glfw)
 target_include_directories(Lux
 	PUBLIC ./Lux/Include/
 	PUBLIC ./External/Glm/
+	PUBLIC ./External/Gsl/include/
 	PUBLIC ./External/Glfw/include/
 )
 

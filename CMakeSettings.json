@@ -35,6 +35,16 @@
           "name": "GLFW_BUILD_DOCS",
           "value": "False",
           "type": "BOOL"
+        },
+        {
+          "name": "GSL_CXX_STANDARD",
+          "value": "20",
+          "type": "STRING"
+        },
+        {
+          "name": "TINYGLTF_BUILD_EXAMPLES",
+          "value": "False",
+          "type": "BOOL"
         }
       ]
     },
@@ -42,6 +52,18 @@
       "name": "x64-Release",
       "generator": "Ninja",
       "configurationType": "Release",
+      "buildRoot": "${projectDir}\\bin\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": []
+    },
+    {
+      "name": "x64-Profile",
+      "generator": "Ninja",
+      "configurationType": "RelWithDebInfo",
       "buildRoot": "${projectDir}\\bin\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",

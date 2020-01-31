@@ -10,3 +10,9 @@
 [submodule "Sdl"]
 	path = External/Sdl
 	url = https://github.com/SDL-mirror/SDL.git
+[submodule "Gsl"]
+	path = External/Gsl
+	url = https://github.com/microsoft/GSL.git
+[submodule "Fx-Gltf"]
+	path = External/Fx-Gltf
+	url = https://github.com/jessey-git/fx-gltf.git

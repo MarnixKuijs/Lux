@@ -1,5 +1,8 @@
 #include "Scene.h"
 #include "Ray.h"
+#include "Color.h"
+#include "Light.h"
+#include "Camera.h"
 
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
@@ -9,12 +12,14 @@
 
 #include <cstdint>
 #include <array>
-#include <iostream>
+#include <string>
 
-constexpr int32_t screenWidth = 1280;
-constexpr int32_t screenHeight = 720;
+constexpr int32_t screenWidth = 512;
+constexpr int32_t screenHeight = 512;
 
 std::array<glm::vec3, screenWidth * screenHeight> image;
+
+void processInput(GLFWwindow* window);
 
 int main()
 {
@@ -45,8 +50,8 @@ int main()
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_CLAMP_TO_EDGE, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_CLAMP_TO_EDGE, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -56,9 +61,9 @@ out vec2 UV;
 
 void main() 
 {
-    vec2 invertedUV = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
-    gl_Position = vec4(invertedUV * 2.0f + -1.0f, 0.0f, 1.0f);
-	UV = vec2(invertedUV.x, 0.0 + (1.0 - invertedUV.y));
+    UV = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
+    gl_Position = vec4(UV * 2.0f + -1.0f, 0.0f, 1.0f);
+	//UV = vec2(invertedUV.x, 0.0 + (1.0 - invertedUV.y));
 })"; 
 
 	const char* fragmentShaderSource = R"(#version 400
@@ -91,47 +96,79 @@ void main()
 
 	glUseProgram(shaderProgram);
 
+	Object ground
+	{
+		Sphere{glm::vec3{0.0f, -100.5f, 0.0f}, 100.f},
+		new Material{Color::green, 0.0f}
+	};
+
+	Object diffuseSphere
+	{
+		Sphere{glm::vec3{0.0f, 0.0f, 0.0f}, 0.5f},
+		new Material{Color::white, 0.0f}
+	};
+
+
+	Object metalicSphere
+	{
+		Sphere{glm::vec3{1.0f, 0.0f, 0.0f}, 0.5f},
+		new Material{glm::vec3{0.8, 0.8, 0.8}, 1.0f}
+	};
+
+	PointLight light1
+	{
+		glm::vec3{-25.0f, 5.0f, 0.0f},
+		Color::white * 1000.f
+	};
+
+	PointLight light2
+	{
+		glm::vec3{25.0f, 5.0f, 0.0f},
+		Color::white * 1000.f
+	};
+
 	Scene scene;
 
-	Object object1
-	{
-		Sphere{glm::vec3{0.0, 0.0, 2.0}, 0.5f}
-	};
+	scene.objects.push_back(ground);
+	scene.objects.push_back(diffuseSphere);
+	scene.objects.push_back(metalicSphere);
+	scene.lights.push_back(light1);
+	scene.lights.push_back(light2);
 
-	Object object2
-	{
-		Sphere{glm::vec3{-1.0, -1.0, 1.0}, 0.5f}
-	};
 
-	scene.objects.push_back(object1);
-	scene.objects.push_back(object2);
-
-	float fov = 1;
-	glm::vec3 cameraPosition{ 0.0f, 0.0f, 0.0f };
-	glm::vec3 viewDirection{ 0.0f, 0.0f, 1.0f };
-	glm::vec3 screenCenter{ cameraPosition + fov * viewDirection };
-	glm::vec3 corner1 = screenCenter + glm::vec3{-1.0, 1.0, 0.0};
-	glm::vec3 corner2 = screenCenter + glm::vec3{1.0, 1.0, 0.0};
-	glm::vec3 corner3 = screenCenter + glm::vec3{-1.0, -1.0, 0.0};
-
+	Camera camera{glm::vec3{0.0f, 0.0f, 1.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 90 , static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight) };
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
+
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			glfwSetWindowShouldClose(window, true);
+
+		const float cameraSpeed = 0.05f; 
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			camera.position += cameraSpeed * glm::vec3{ 0.0f, 0.0f, -1.0f };
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			camera.position -= cameraSpeed * glm::vec3{ 0.0f, 0.0f, -1.0f };
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			camera.position -= glm::normalize(glm::cross(glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f })) * cameraSpeed;
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			camera.position += glm::normalize(glm::cross(glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f })) * cameraSpeed;
+
+		camera = Camera{ camera.position, camera.position - glm::vec3{0.0f, 0.0f, 1.0f}, 90, static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight) };
 
 		for (int y{ 0 }; y < framebufferHeight; ++y)
 		{
 			for (int x{ 0 }; x < framebufferWidth; ++x)
 			{
 				auto pixelIndex = x + framebufferWidth * y;
-				auto& currentPixel = image[pixelIndex];
 
 				float u = static_cast<float>(x) / static_cast<float>(framebufferWidth);
 				float v = static_cast<float>(y) / static_cast<float>(framebufferHeight);
 
-				glm::vec3 screenPoint = corner1 + u * (corner2 - corner1) + v * (corner3 - corner1);
+				glm::vec3 screenPoint = camera.lower_left_corner + u * camera.horizontal + v * camera.vertical;
 
-				Ray ray{ cameraPosition, glm::normalize(screenPoint - cameraPosition) };
+				Ray ray{ camera.position, glm::normalize(screenPoint - camera.position) };
 
 				image[pixelIndex] = Trace(scene, ray);
 			}
@@ -143,4 +180,7 @@ void main()
 
 		glfwSwapBuffers(window);
 	}
+
+	glfwTerminate();
+	return 0;
 }
