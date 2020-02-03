@@ -7,6 +7,6 @@
 
 struct Mesh
 {
-	Mesh();
-	std::vector<glm::vec3> triangles;
+	std::vector<glm::vec3> posistions;
+	std::vector<glm::vec3> normals;
 };

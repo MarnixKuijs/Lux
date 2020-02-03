@@ -10,3 +10,6 @@
 [submodule "Fx-Gltf"]
 	path = External/Fx-Gltf
 	url = https://github.com/jessey-git/fx-gltf.git
+[submodule "Nlohmann"]
+	path = External/Nlohmann
+	url = https://github.com/nlohmann/json.git

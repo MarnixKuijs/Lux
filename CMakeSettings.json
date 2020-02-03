@@ -45,6 +45,31 @@
           "name": "TINYGLTF_BUILD_EXAMPLES",
           "value": "False",
           "type": "BOOL"
+        },
+        {
+          "name": "FX_GLTF_INSTALL",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "JSON_Install",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "JSON_BuildTests",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "BUILD_TESTING",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "nlohmann_json_DIR",
+          "value": "${projectDir}\\External\\Nlohmann\\",
+          "type": "PATH"
         }
       ]
     },
@@ -58,7 +83,48 @@
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": []
+      "variables": [
+        {
+          "name": "nlohmann_json_DIR",
+          "value": "${projectDir}\\External\\Nlohmann\\",
+          "type": "PATH"
+        },
+        {
+          "name": "BUILD_TESTING",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "FX_GLTF_INSTALL",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "JSON_BuildTests",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "JSON_Install",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "GLFW_INSTALL",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "GSL_CXX_STANDARD",
+          "value": "20",
+          "type": "STRING"
+        },
+        {
+          "name": "GLFW_BUILD_DOCS",
+          "value": "False",
+          "type": "BOOL"
+        }
+      ]
     },
     {
       "name": "x64-Profile",

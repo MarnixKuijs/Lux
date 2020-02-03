@@ -11,7 +11,7 @@ struct HitRecord
 {
 	float hitDistance;
 	glm::vec3 normal;
-	Material* material;
+	const Material* material;
 };
 
 

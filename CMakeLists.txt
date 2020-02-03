@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_subdirectory(External/Nlohmann)
+add_subdirectory(External/Fx-Gltf)
 add_subdirectory(External/Glm)
 add_subdirectory(External/Gsl)
 
@@ -21,8 +23,9 @@ set(SRC_FILES
 	./Lux/Source/Main.cpp
 	./Lux/Source/Ray.cpp
 	./Lux/Source/Camera.cpp
-	./Lux/Source/Scene.cpp
-	./Lux/Source/Mesh.cpp
+	#./Lux/Source/Scene.cpp
+	#./Lux/Source/Mesh.cpp
+	./Lux/Source/ResourceManager.cpp
 )
 
 add_executable(Lux ${SRC_FILES})
@@ -34,6 +37,8 @@ target_include_directories(Lux
 	PUBLIC ./External/Glm/
 	PUBLIC ./External/Gsl/include/
 	PUBLIC ./External/Glfw/include/
+	PUBLIC ./External/Fx-Gltf/include/
+	PUBLIC ./External/Nlohmann/single_include/
 )
 
 target_link_directories(Lux
