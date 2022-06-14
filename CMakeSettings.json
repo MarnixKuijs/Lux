@@ -5,7 +5,7 @@
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "buildRoot": "${projectDir}\\Bin\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
@@ -15,6 +15,21 @@
           "name": "nlohmann_json_DIR",
           "value": "${projectDir}\\\\External\\\\Nlohmann\\\\",
           "type": "PATH"
+        },
+        {
+          "name": "FX_GLTF_USE_INSTALLED_DEPS",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "FX_GLTF_BUILD_TESTS",
+          "value": "False",
+          "type": "BOOL"
+        },
+        {
+          "name": "FX_GLTF_INSTALL",
+          "value": "False",
+          "type": "BOOL"
         }
       ]
     }

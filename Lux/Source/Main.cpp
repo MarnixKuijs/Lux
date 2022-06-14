@@ -139,8 +139,8 @@ void main()
 	horizontalPlane.texCoords.emplace_back(0.0f, 1.0f);
 
 	ResourceManager resourceManager;
-	resourceManager.ImportFromGltf(R"(D:\GameDev\Projects\Cpp\Lux\Assets\Models\BoxTextured\BoxTextured.gltf)", ImportSettings{ .flipUV = true });
-	const Texture& debugTexture = resourceManager.LoadTexture(R"(D:\GameDev\Projects\Cpp\Lux\Assets\Textures\Debug\debug_offset_01.png)");
+	resourceManager.ImportFromGltf(ASSETDIR"/Models/BoxTextured/BoxTextured.gltf", ImportSettings{ .flipUV = true });
+	const Texture& debugTexture = resourceManager.LoadTexture(ASSETDIR"/Textures/Debug/debug_offset_01.png");
 	const Material& defaultMaterial = resourceManager.DefaultMaterial();
 
 	Bvh groundBvh{ groundPlane };

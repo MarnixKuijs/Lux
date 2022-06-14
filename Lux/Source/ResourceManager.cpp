@@ -10,7 +10,6 @@
 
 #include <fx/gltf.h>
 #include <gsl/span>
-#include <gsl/multi_span>
 #include <cstring>
 
 
@@ -23,7 +22,7 @@ void ResourceManager::LoadDefaults()
 {
 	defaultAlbedo.value = std::make_unique<Texture>();
 	int width, height, channels, desiredChannels = 3;
-	uint8_t* imageData = stbi_load(R"(D:\GameDev\Projects\Cpp\Lux\Assets\Textures\Default.png)", &width, &height, &channels, desiredChannels);
+	uint8_t* imageData = stbi_load(ASSETDIR"/Textures/Default.png", &width, &height, &channels, desiredChannels);
 	size_t imageDataSize = static_cast<size_t>(width)* static_cast<size_t>(height)* static_cast<size_t>(desiredChannels);
 	defaultAlbedo.value->data.resize(imageDataSize);
 	std::memcpy(defaultAlbedo.value->data.data(), imageData, imageDataSize);
@@ -203,10 +202,10 @@ void ResourceManager::ConvertMaterial(const fx::gltf::Document& gltf, const fx::
 
 		const fx::gltf::Image& image = gltf.images[gltfTexture.source];
 
-		const std::string imagePath = fx::gltf::detail::GetDocumentRootPath((*currentAssetPath).string()) + "/" + image.uri;
+		const auto imagePath = fx::gltf::detail::GetDocumentRootPath(*currentAssetPath).append(image.uri);
 
 		int width, height, channels, desiredChannels = 3;
-		uint8_t* imageData = stbi_load(imagePath.c_str(), &width, &height, &channels, desiredChannels);
+		uint8_t* imageData = stbi_load(imagePath.string().c_str(), &width, &height, &channels, desiredChannels);
 		size_t imageDataSize = static_cast<size_t>(width) * static_cast<size_t>(height)* static_cast<size_t>(desiredChannels);
 		textureResource.value->data.resize(imageDataSize);
 		std::memcpy(textureResource.value->data.data(), imageData, imageDataSize);

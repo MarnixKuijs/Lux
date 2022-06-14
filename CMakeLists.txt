@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(FX_GLTF_USE_INSTALLED_DEPS off)
-set(nlohmann_json_DIR ${CMAKE_SOURCE_DIR}/External/Nlohmann/cmake/)
+set(nlohmann_json_DIR ${CMAKE_SOURCE_DIR}/External/Nlohmann/)
 
 add_subdirectory(External/Nlohmann)
 add_subdirectory(External/Fx-Gltf)
@@ -57,4 +57,8 @@ target_link_libraries(Lux
 
 target_compile_definitions(Lux
 	PRIVATE NOMINMAX
+)
+
+target_compile_definitions(Lux
+	PRIVATE ASSETDIR="${CMAKE_SOURCE_DIR}/Assets"
 )

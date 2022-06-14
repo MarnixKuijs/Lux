@@ -87,7 +87,7 @@ void Bvh::SubDevide(BvhNode& bvhNode, gsl::span<const glm::vec3, gsl::dynamic_ex
 
 	glm::vec3 splitPoint = bvhNode.min + (bvhNode.max - bvhNode.min) / 2.0f;
 	auto startingItter = indices.begin() + bvhNode.leftFirst;
-	auto& itter = std::partition(startingItter, startingItter + bvhNode.count, [centroids, splitPoint](const auto& lhs)
+	auto itter = std::partition(startingItter, startingItter + bvhNode.count, [centroids, splitPoint](const auto& lhs)
 		{
 			return centroids[lhs][0] < splitPoint[0];
 		});
@@ -139,7 +139,8 @@ std::optional<BvhHitRecord> Bvh::Traverse(const BvhNode& bvhNode, const Ray& ray
 
 		for (size_t triangleIndex = 0; triangleIndex < bvhNode.count; ++triangleIndex)
 		{
-			auto triangleHit = Intersection(ray, gsl::make_span(&triangles[(bvhNode.leftFirst + triangleIndex) * 3], 3));
+			auto temp = gsl::make_span(&triangles[(bvhNode.leftFirst + triangleIndex) * 3], 3);
+			auto triangleHit = Intersection(ray, temp);
 			if (!triangleHit)
 			{
 				continue;

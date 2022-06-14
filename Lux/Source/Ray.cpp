@@ -200,7 +200,7 @@ bool Intersection(const Ray& ray, glm::vec3 min, glm::vec3 max)
 	return true;
 }
 
-std::optional<TriangleHitRecord> Intersection(const Ray& ray, gsl::span<const glm::vec3, 3> triangle)
+std::optional<TriangleHitRecord> Intersection(const Ray& ray, gsl::span<const glm::vec3, gsl::dynamic_extent> triangle)
 {
 	glm::vec3 vertex0 = triangle[0];
 	glm::vec3 vertex1 = triangle[1];;

@@ -24,4 +24,4 @@ glm::vec3 DirectIllumination(const Scene& scene, glm::vec3 hitPoint, glm::vec3 n
 bool IsOccluded(const Scene& scene, const Ray& lightRay, float distance) noexcept;
 glm::vec3 Reflect(glm::vec3 incoming, glm::vec3 normal);
 bool Intersection(const Ray& ray, glm::vec3 min, glm::vec3 max);
-std::optional<TriangleHitRecord> Intersection(const Ray& ray, gsl::span<const glm::vec3, 3> triangle);
+std::optional<TriangleHitRecord> Intersection(const Ray& ray, gsl::span<const glm::vec3, gsl::dynamic_extent> triangle);
