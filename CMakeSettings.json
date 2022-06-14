@@ -5,138 +5,18 @@
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${projectDir}\\bin\\${name}",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "-v",
+      "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "variables": [
         {
-          "name": "GLFW_INSTALL",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "VIDEO_VULKAN",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "VIDEO_OPENGLES",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "VIDEO_OPENGL",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "GLFW_BUILD_DOCS",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "GSL_CXX_STANDARD",
-          "value": "20",
-          "type": "STRING"
-        },
-        {
-          "name": "TINYGLTF_BUILD_EXAMPLES",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "FX_GLTF_INSTALL",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "JSON_Install",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "JSON_BuildTests",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "BUILD_TESTING",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
           "name": "nlohmann_json_DIR",
-          "value": "${projectDir}\\External\\Nlohmann\\",
+          "value": "${projectDir}\\\\External\\\\Nlohmann\\\\",
           "type": "PATH"
         }
       ]
-    },
-    {
-      "name": "x64-Release",
-      "generator": "Ninja",
-      "configurationType": "Release",
-      "buildRoot": "${projectDir}\\bin\\${name}",
-      "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": [
-        {
-          "name": "nlohmann_json_DIR",
-          "value": "${projectDir}\\External\\Nlohmann\\",
-          "type": "PATH"
-        },
-        {
-          "name": "BUILD_TESTING",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "FX_GLTF_INSTALL",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "JSON_BuildTests",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "JSON_Install",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "GLFW_INSTALL",
-          "value": "False",
-          "type": "BOOL"
-        },
-        {
-          "name": "GSL_CXX_STANDARD",
-          "value": "20",
-          "type": "STRING"
-        },
-        {
-          "name": "GLFW_BUILD_DOCS",
-          "value": "False",
-          "type": "BOOL"
-        }
-      ]
-    },
-    {
-      "name": "x64-Profile",
-      "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
-      "buildRoot": "${projectDir}\\bin\\${name}",
-      "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": []
     }
   ]
 }

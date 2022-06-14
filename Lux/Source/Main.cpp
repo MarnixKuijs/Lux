@@ -4,6 +4,7 @@
 #include "Light.h"
 #include "Camera.h"
 #include "ResourceManager.h"
+#include "Bvh.h"
 
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
@@ -102,52 +103,110 @@ void main()
 	groundPlane.posistions.emplace_back(500.0f, -1.0f,-500.0f);
 	groundPlane.posistions.emplace_back(-500.0f,-1.0f, -500.0f);
 	groundPlane.posistions.emplace_back(-500.0f,-1.0f, 500.0f);
+	groundPlane.texCoords.emplace_back(1.0f, 1.0f);
+	groundPlane.texCoords.emplace_back(1.0f, 0.0f);
+	groundPlane.texCoords.emplace_back(0.0, 1.0f);
+	groundPlane.texCoords.emplace_back(1.0f, 0.0f);
+	groundPlane.texCoords.emplace_back(0.0f, 0.0f);
+	groundPlane.texCoords.emplace_back(0.0f, 1.0f);
 
-	Mesh plane;
-	plane.posistions.emplace_back(1.0f,  1.0f, 0.0f);
-	plane.posistions.emplace_back(1.0f,  -1.0f, 0.0f);
-	plane.posistions.emplace_back(-1.0f, 1.0f, 0.0f);
-	plane.posistions.emplace_back(1.0f,  -1.0f, 0.0f);
-	plane.posistions.emplace_back(-1.0f, -1.0f, 0.0f);
-	plane.posistions.emplace_back(-1.0f, 1.0f, 0.0f);
+	Mesh verticalPlane;
+	verticalPlane.posistions.emplace_back(1.0f,  1.0f, 0.0f);
+	verticalPlane.posistions.emplace_back(1.0f,  -1.0f, 0.0f);
+	verticalPlane.posistions.emplace_back(-1.0f, 1.0f, 0.0f);
+	verticalPlane.posistions.emplace_back(1.0f,  -1.0f, 0.0f);
+	verticalPlane.posistions.emplace_back(-1.0f, -1.0f, 0.0f);
+	verticalPlane.posistions.emplace_back(-1.0f, 1.0f, 0.0f);
+	verticalPlane.texCoords.emplace_back(1.0f, 0.0f);
+	verticalPlane.texCoords.emplace_back(1.0f, 1.0f);
+	verticalPlane.texCoords.emplace_back(0.0, 0.0f);
+	verticalPlane.texCoords.emplace_back(1.0f, 1.0f);
+	verticalPlane.texCoords.emplace_back(0.0f, 1.0f);
+	verticalPlane.texCoords.emplace_back(0.0f, 0.0f);
+
+	Mesh horizontalPlane;
+	horizontalPlane.posistions.emplace_back(1.0f, 1.0f,  1.0f);
+	horizontalPlane.posistions.emplace_back(1.0f, 1.0f, -1.0f);
+	horizontalPlane.posistions.emplace_back(-1.0f,1.0f,  1.0f);
+	horizontalPlane.posistions.emplace_back(1.0f, 1.0f, -1.0f);
+	horizontalPlane.posistions.emplace_back(-1.0f,1.0f,  -1.0f);
+	horizontalPlane.posistions.emplace_back(-1.0f,1.0f,  1.0f);
+	horizontalPlane.texCoords.emplace_back(1.0f, 1.0f);
+	horizontalPlane.texCoords.emplace_back(1.0f, 0.0f);
+	horizontalPlane.texCoords.emplace_back(0.0, 1.0f);
+	horizontalPlane.texCoords.emplace_back(1.0f, 0.0f);
+	horizontalPlane.texCoords.emplace_back(0.0f, 0.0f);
+	horizontalPlane.texCoords.emplace_back(0.0f, 1.0f);
 
 	ResourceManager resourceManager;
-	resourceManager.ImportFromGltf(R"(D:\GameDev\Projects\Cpp\Lux\Assets\Models\Lantern\Lantern.gltf)");
+	resourceManager.ImportFromGltf(R"(D:\GameDev\Projects\Cpp\Lux\Assets\Models\BoxTextured\BoxTextured.gltf)", ImportSettings{ .flipUV = true });
+	const Texture& debugTexture = resourceManager.LoadTexture(R"(D:\GameDev\Projects\Cpp\Lux\Assets\Textures\Debug\debug_offset_01.png)");
+	const Material& defaultMaterial = resourceManager.DefaultMaterial();
+
+	Bvh groundBvh{ groundPlane };
+
+	const Material* debugMaterial = new Material{ .albedoTexture = &debugTexture };
 
 	Object ground
 	{
 		&groundPlane,
-		new Material{Color::white, 0.0f}
+		debugMaterial,
+		&groundBvh
 	};
 
-	const Mesh& mesh = resourceManager.GetMeshByIndex(0);
+	const Mesh& lampMesh = resourceManager.GetMeshByIndex(0);
+	const Material& lampMaterial = resourceManager.GetMaterialByIndex(0);
 
-	Object object1
+	Bvh lampBvh{ lampMesh };
+
+
+
+
+	Bvh verticalPlaneBvh{ verticalPlane };
+
+	Object verticalPlaneObject
 	{
-		&plane,
-		new Material{Color::red, 0.0f}
+		&verticalPlane,
+		debugMaterial,
+		&verticalPlaneBvh
+	};
+
+	Bvh horizontalPlaneBvh{ horizontalPlane };
+
+	Object horizontalPlaneObject
+	{
+		&horizontalPlane,
+		debugMaterial,
+		&horizontalPlaneBvh
+	};
+
+	Object lampPost
+	{
+		&lampMesh,
+		debugMaterial,
+		&lampBvh
 	};
 
 	PointLight light1
 	{
 		glm::vec3{0.0f, 0.0f, -1.0f},
-		Color::white * 10.f
+		Color::white * 1.f
 	};
 
 	PointLight light2
 	{
-		glm::vec3{25.0f, 5.0f, 0.0f},
-		Color::white * 1000.f
+		glm::vec3{5.0f, 5.0f, -5.0f},
+		Color::white * 1.f
 	};
 
 	Scene scene;
 
-	scene.objects.push_back(ground);
-	scene.objects.push_back(object1);
-	scene.lights.push_back(light1);
+	//scene.objects.push_back(ground);
+	scene.objects.push_back(verticalPlaneObject);
+	//scene.lights.push_back(light1);
 
-	glm::vec3 lookDir{ 0.0f, 0.0f, 1.0f };
-	Camera camera{glm::vec3{0.0f, 0.0f, -20.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 90 , static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight) };
+	glm::vec3 lookDir{ 0.0f, 0.0f, -1.0f };
+	Camera camera{glm::vec3{0.0f, 5.0f, 20.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 90 , static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight) };
 	bool pressedOnce = false;	
 	while (!glfwWindowShouldClose(window))
 	{
@@ -165,6 +224,11 @@ void main()
 			camera.position -= glm::normalize(glm::cross(glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f })) * cameraSpeed;
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			camera.position += glm::normalize(glm::cross(glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f })) * cameraSpeed;
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			camera.position += cameraSpeed * glm::vec3{ 0.0f, -1.0f, 0.0f };
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			camera.position -= cameraSpeed * glm::vec3{ 0.0f, -1.0f, 0.0f };
+
 		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !pressedOnce)
 		{
 			lookDir = -lookDir;
