@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(FX_GLTF_USE_INSTALLED_DEPS off)
+set(nlohmann_json_DIR ${CMAKE_SOURCE_DIR}/External/Nlohmann/cmake/)
+
 add_subdirectory(External/Nlohmann)
 add_subdirectory(External/Fx-Gltf)
 add_subdirectory(External/Glm)
