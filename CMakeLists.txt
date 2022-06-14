@@ -20,12 +20,15 @@ set_target_properties(glfw
 
 set(SRC_FILES
 	./Lux/Source/glad.c
+	./Lux/Source/stb_image.cc
 	./Lux/Source/Main.cpp
 	./Lux/Source/Ray.cpp
 	./Lux/Source/Camera.cpp
+	./Lux/Source/Texture.cpp
 	#./Lux/Source/Scene.cpp
 	#./Lux/Source/Mesh.cpp
 	./Lux/Source/ResourceManager.cpp
+	./Lux/Source/Bvh.cpp
 )
 
 add_executable(Lux ${SRC_FILES})
